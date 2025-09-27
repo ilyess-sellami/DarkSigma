@@ -66,8 +66,8 @@ Each folder should contain `.yml` rules for that category (e.g., `001_darkweb_on
 
 ## 🔄 Converting Rules with Sigma CLI
 ```bash
-mkdir -p converted_rules/<backend>
-sigma convert -t <backend> rules/01_web_access/*.yml -o converted_rules/<backend>/01_web_access.spl --without-pipeline
+mkdir -p converted_rules/<target>
+sigma convert -t <target> rules/01_web_access/*.yml -o converted_rules/<target>/01_web_access.txt --without-pipeline
 ```
 
 ---
