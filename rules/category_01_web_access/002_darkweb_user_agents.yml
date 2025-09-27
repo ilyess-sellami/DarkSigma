@@ -1,0 +1,21 @@
+title: Suspicious Dark Web User Agents
+id: b7f48d44-0c12-4f22-8c42-1588f51fd83a
+status: experimental
+description: Detects usage of Tor Browser or common dark web scraping tools.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+    - https://attack.mitre.org/techniques/T1071/004/
+tags:
+    - attack.command_and_control
+logsource:
+    category: proxy
+    product: any
+detection:
+    selection:
+        user_agent|contains:
+            - "TorBrowser"
+            - "Onion Browser"
+            - "darknet-crawler"
+    condition: selection
+level: medium
