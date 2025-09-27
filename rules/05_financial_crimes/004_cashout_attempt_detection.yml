@@ -1,0 +1,28 @@
+title: Cashout Attempt Detected
+id: c34d56e7-8f90-1234-5a6b-7c8d9e0f1a2b
+status: experimental
+description: Detects potential cashout attempts via high-value transfers, withdrawals, or purchases in suspicious patterns.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1041/
+tags:
+  - attack.exfiltration
+  - attack.impact
+logsource:
+  product: any
+  service: authentication
+  category: authentication
+detection:
+  selection_cashout:
+    eventtype: "transaction"
+    amount|gte: 10000
+    destinationcountry|re: '(offshore|highrisk)'
+  condition: selection_cashout
+falsepositives:
+  - legitimate high-value transactions; verify business context
+level: high
+confidence: medium
+detection_notes: >
+  Combine with historical transaction patterns and unusual IP/geolocation.
+  Flag accounts transferring large sums to multiple high-risk destinations or crypto wallets.

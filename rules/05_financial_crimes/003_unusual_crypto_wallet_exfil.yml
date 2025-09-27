@@ -1,4 +1,4 @@
-title: 003_Unusual Cryptocurrency Wallet Data Exfiltration
+title: Unusual Cryptocurrency Wallet Data Exfiltration
 id: b23c45d6-7e8f-9012-3a4b-5c6d7e8f9a0b
 status: stable
 description: Detects exfiltration of cryptocurrency wallet files, keys, or mnemonic phrases over web or cloud storage.

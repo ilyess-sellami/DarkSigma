@@ -1,4 +1,4 @@
-title: 001_Crypto Mixer Access Detected
+title: Crypto Mixer Access Detected
 id: f01a2b3c-4d5e-6789-0a1b-2c3d4e5f6a7b
 status: experimental
 description: Detects access attempts to known cryptocurrency mixing or tumbling services, including Tor-based or web gateways.

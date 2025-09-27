@@ -1,0 +1,30 @@
+title: Financial Data Staged for Exfiltration
+id: d45e67f8-9012-3456-7a8b-9c0d1e2f3a4b
+status: stable
+description: Detects staging of financial data files in preparation for exfiltration (copying, encrypting, compressing files with wallet, account, or transaction keywords).
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1074/
+tags:
+  - attack.exfiltration
+  - attack.command_and_control
+logsource:
+  product: any
+  service: file
+  category: file
+detection:
+  selection_financial_stage:
+    filename|re: '.*(wallet|accounts|transactions|key|seed).*'
+    fileaction|contains:
+      - copy
+      - compress
+      - encrypt
+  condition: selection_financial_stage
+falsepositives:
+  - routine backups or legitimate encryption; verify user and process
+level: high
+confidence: medium
+detection_notes: >
+  Correlate with unusual upload destinations, .onion access, or crypto mixer URLs.
+  File staging outside normal backup procedures should trigger alerts.
