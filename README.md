@@ -5,7 +5,7 @@
 ---
 ## 📌 Overview
 **DarkSigma** is a cybersecurity research and detection engineering project focused on monitoring, detecting, and analyzing **Dark Web–related threats**.  
-The project’s goal is to provide a structured detection framework that can be translated into **Splunk**, **ELK/Sigma**, and **Wazuh** rules, and tested against synthetic and real-world logs.  
+The project’s goal is to provide a structured detection framework that can be translated into **Splunk** and **Kibana** rules, and tested against synthetic and real-world logs.  
 
 ---
 
@@ -14,7 +14,7 @@ The project’s goal is to provide a structured detection framework that can be 
 - Map each category to **MITRE ATT&CK tactics and techniques**.  
 - Assign **severity levels** to prioritize detection and response.  
 - Develop **30+ professional detection rules** for `.onion` access, marketplaces, credentials leaks, malware distribution, and more.  
-- Convert the rules to **Splunk SPL**, **Sigma (for ELK)**, and **Wazuh** formats.  
+- Convert the rules to **Splunk SPL** and **Kibana lucence** formats.  
 - Validate detections with **synthetic test logs** and real-world threat intel.  
 
 ---
