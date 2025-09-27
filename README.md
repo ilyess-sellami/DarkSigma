@@ -28,13 +28,41 @@ The project’s goal is to provide a structured detection framework that can be 
 | 7 | **Insider / Recruitment Scams** | Initial Access, Impact, Collection | Valid Accounts (T1078), Spearphishing Attachment (T1193) | **High** |
 
 ---
+## ⚙️ Sigma CLI Installation
 
-## 📌 Next Steps
-- [ ] Build **30+ DarkSigma detection rules** (IDs: `001_darkweb_onion_access.yml`, `002_tor_gateway_access.yml`, etc.).  
-- [ ] Translate rules into **Splunk SPL**, **Sigma/ELK**, and **Wazuh** formats.  
-- [ ] Create a **test dataset** (synthetic + real samples) for validation.  
-- [ ] Document rule performance and **false positive handling**.  
-- [ ] Share findings as an **open-source threat detection library**.  
+1. Install Python 3.9+ and pip if not already installed.
+2. Install Sigma CLI:
+```bash
+pip install sigma-cli
+```
+3. Confirm installation:
+```bash
+sigma -h
+```
+4. Optionally, list available backend targets:
+```bash
+sigma list targets
+```
+Typical backends: `splunk`, `lucene`, `eql`, `esql`, `elastalert`.
+
+📝 Adding Your Rules
+1. Place your Sigma `.yml` rule files in a structured folder:
+```bash
+rules/
+ ├─ 01_web_access/
+ ├─ 02_marketplaces/
+ ├─ 03_credentials_and_data_exposure/
+ └─ ...
+```
+Each folder should contain `.yml` rules for that category (e.g., `001_darkweb_onion_access.yml`).
+
+---
+
+## 🔄 Converting Rules with Sigma CLI
+```bash
+mkdir -p converted_rules/<backend>
+sigma convert -t <backend> rules/01_web_access/*.yml -o converted_rules/<backend>/01_web_access.spl --without-pipeline
+```
 
 ---
 
@@ -42,5 +70,3 @@ The project’s goal is to provide a structured detection framework that can be 
 DarkSigma is a **research and educational project**.  
 It does **not** provide access to Dark Web resources and does not encourage their use.  
 All detections are built for **defensive cybersecurity purposes only**.  
-
----
