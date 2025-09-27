@@ -1,0 +1,30 @@
+title: Stolen Cloud Provider Keys or Token Patterns
+id: 1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d
+status: stable
+description: Detects appearances of cloud provider access keys/tokens in traffic or logs (AWS, Azure service principals, generic long tokens). Useful to catch leaked keys in web traffic, paste sites, or uploads.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+tags:
+  - attack.credential_access
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection_aws:
+    Body|re:
+      - "\\bAKIA[0-9A-Z]{16}\\b"                       # AWS Access Key ID pattern
+  selection_azure:
+    Body|re:
+      - "\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\b" # GUID (client IDs, may be noisy)
+  selection_generic_token:
+    Body|re:
+      - "(?i)\\beyJ[a-zA-Z0-9_\\-]{10,}\\.[a-zA-Z0-9_\\-]+\\.[a-zA-Z0-9_\\-]+\\b"  # JWT-like (heuristic)
+  condition: selection_aws or selection_azure or selection_generic_token
+falsepositives:
+  - GUIDs and tokens used legitimately in webapps; validate by checking surrounding text (e.g., 'secret', 'access key', 'AKIA')
+level: critical
+confidence: high
+detection_notes: >
+  Correlate findings with destination host (paste sites, .onion gateways) and file locations. When a key is found, trigger automated rotation workflow for that key prefix if possible and quarantine the payload for IR. Maintain allowlist for internal keys accidentally logged.

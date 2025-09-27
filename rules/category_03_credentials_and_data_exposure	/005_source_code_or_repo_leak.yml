@@ -1,0 +1,32 @@
+title: Source Code or Repository Leak Indicators
+id: 4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f90
+status: experimental
+description: Detects potential leaks of source code or repositories (large archive downloads with code file extensions, references to 'git', 'github', 'repo', or raw code snippets in posted files), and secrets within code (keys, tokens in code).
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1195/
+tags:
+  - attack.exfiltration
+  - attack.collection
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection_repo_download:
+    Url|re:
+      - "(?i).*\\.(zip|tar|gz|7z)$"
+    Url|re:
+      - "(?i).*\\b(git|github|gitlab|repo|raw)\\b.*"
+  selection_code_snippet:
+    Body|re:
+      - "(?m)(?i)\\b(function|def|class|import\\s+|package\\s+|namespace\\b).*\\(?.*\\)?:"
+    Body|re:
+      - "(?i)\\b(aws_access_key_id|AKIA[0-9A-Z]{16}|SECRET_KEY|private_key|ssh-rsa)\\b"
+  condition: selection_repo_download or selection_code_snippet
+falsepositives:
+  - legitimate developer downloads, public open-source clones; correlate with authenticated user, repo visibility, and asset ownership
+level: high
+confidence: medium
+detection_notes: >
+  Enrich with code ownership, repo visibility (public/private), and source control access tokens. If secrets are detected in code, trigger secret rotation and a developer notification flow. For downloads, require file hash sandboxing and review for backdoored dependencies.

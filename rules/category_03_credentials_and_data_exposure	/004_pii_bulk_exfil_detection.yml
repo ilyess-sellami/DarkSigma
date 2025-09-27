@@ -1,0 +1,29 @@
+title: Bulk PII / Sensitive Data Exfiltration Indicators
+id: 3c4d5e6f-7a8b-91c2-3d4e-5f6a7b8c9d0e
+status: stable
+description: Detects transfers or uploads containing multiple PII indicators (SSN, passport numbers, bank account numbers, large CSV/ZIP uploads) indicative of data dumps being exfiltrated or prepared for sale.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1041/
+tags:
+  - attack.exfiltration
+  - attack.collection
+logsource:
+  category: dlp
+  product: any
+detection:
+  selection_pii:
+    Body|re:
+      - "\\b\\d{3}-\\d{2}-\\d{4}\\b"                 # US SSN pattern (example)
+      - "\\b\\d{10,16}\\b"                           # possible account/card-like sequences (heuristic)
+      - "(?i)\\bpassport\\b|\\bssn\\b|\\bnational id\\b|\\bdate of birth\\b"
+    Url|re:
+      - "(?i).*\\.(zip|tar|gz|7z|csv)$"
+  condition: selection_pii
+falsepositives:
+  - compliant exports, HR or legal data transfers; validate via DLP policy ownership and data owner approval
+level: critical
+confidence: high
+detection_notes: >
+  Require DLP context (sensitivity labels). Raise priority if transfer is to external cloud storage, .onion gateway, or unknown IP. Block/hold transfers automatically if policy indicates sensitive PII and destination is external or untrusted.
