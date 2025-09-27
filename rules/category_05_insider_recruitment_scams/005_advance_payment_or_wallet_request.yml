@@ -1,0 +1,28 @@
+title: Advance Payment / Wallet Request in Recruitment Flow
+id: 4e5f6a7b-8c90-123d-ef4a-5b6c7d8e9f01
+status: experimental
+description: "Detects requests for advance payments, wallet addresses, or payments (PayPal/Venmo/crypto) as part of recruitment/hiring messages — hallmark of hiring scams and cash-out attempts."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1598/
+tags:
+  - attack.finance
+  - attack.social
+logsource:
+  category: email
+  product: any
+detection:
+  selection_payment_keywords:
+    Body|re:
+      - "(?i).*\\b(pay (a )?(fee|deposit)|advance payment|pay now|wire transfer|paypal|venmo|cashapp)\\b.*"
+  selection_crypto:
+    Body|re:
+      - "(?i)\\b([13][a-km-zA-HJ-NP-Z1-9]{25,34}|0x[a-fA-F0-9]{40}|4[0-9AB][1-9A-HJ-NP-Za-km-z]{93})\\b"
+  condition: selection_payment_keywords and selection_crypto
+falsepositives:
+  - legitimate vendor invoice/payment requests; correlate with known HR/finance workflows and vendor whitelists
+level: high
+confidence: medium
+detection_notes: >
+  Extract wallet addresses and payment details; compare against known-malicious wallet lists. If matched or if payment requested before formal HR onboarding, block links/attachments and escalate to HR/Legal/Finance immediately.

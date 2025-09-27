@@ -1,0 +1,33 @@
+title: Unexpected Onboarding Document Upload / PII Request
+id: 1b2c3d4e-5f6a-7890-bc1d-2e3f4a5b6c7d
+status: stable
+description: "Detects web/email uploads where a user or sender asks for or uploads identity docs (passport, national ID, SSN) outside formal HR channels or to external hosts — commonly used in recruitment scams to harvest PII."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1598/
+tags:
+  - attack.collection
+  - attack.initial_access
+logsource:
+  category: web
+  product: proxy
+detection:
+  selection_upload:
+    Method|contains: "POST"
+    Url|re:
+      - "(?i).*/(upload|attachments|files|onboard|resume|cv|documents)/.*"
+    Body|re:
+      - "(?i).*\\b(passport|national id|passport_scan|ssn|social security|id_number|driving licence|driver's license)\\b.*"
+  selection_email_attach:
+    Subject|re:
+      - "(?i).*\\b(resume|cv|passport|identity|onboarding)\\b.*"
+    Body|re:
+      - "(?i).*\\b(passport|ssn|national id|id scan)\\b.*"
+  condition: selection_upload or selection_email_attach
+falsepositives:
+  - Legitimate HR portal uploads or vendor onboarding; correlate with HR system hostnames and authenticated HR user sessions
+level: high
+confidence: high
+detection_notes: >
+  Require HR portal allowlist. If detected to external host or .onion gateway, escalate and block immediate outbound transfers. Consider automated temporary hold of the upload and notify HR/Privacy for verification.

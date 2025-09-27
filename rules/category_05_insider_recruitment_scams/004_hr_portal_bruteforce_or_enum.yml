@@ -1,0 +1,31 @@
+title: HR Portal Account Enumeration / Brute Force Attempts
+id: 3d4e5f6a-7b8c-9012-de3f-4a5b6c7d8e9f
+status: stable
+description: "Detects multiple failed authentication attempts, username enumeration patterns, or credential stuffing against HR/onboarding portals — attackers use these portals to find valid employees to target for recruitment scams or extortion."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1110/
+tags:
+  - attack.bruteforce
+  - attack.reconnaissance
+logsource:
+  category: authentication
+  product: any
+detection:
+  selection_fail:
+    EventType|contains:
+      - "authentication_failure"
+      - "login_failed"
+    TargetService|re:
+      - "(?i).*hr|onboard|workday|bamboohr|sap|adp|payroll.*"
+  selection_pattern:
+    EventMessage|re:
+      - "(?i).*\\b(user not found|invalid user|unknown user|no such user)\\b.*"
+  condition: selection_fail and selection_pattern
+falsepositives:
+  - legitimate users with wrong password; mitigate by correlating src_ip and device fingerprint, and by setting thresholds (e.g., >10 failures from same IP across different accounts)
+level: high
+confidence: medium
+detection_notes: >
+  Implement aggregation: count distinct target usernames failed from same src_ip within 10 minutes. If enumeration suspected (many 'user not found' across usernames), block source IP and escalate to SOC/HR. Use CAPTCHA / lockout policies to prevent abuse.

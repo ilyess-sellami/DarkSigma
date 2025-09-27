@@ -1,0 +1,33 @@
+title: Fake Job Offer / Recruitment Phishing Detected
+id: 0a1b2c3d-4e5f-6789-ab0c-1d2e3f4a5b6c
+status: stable
+description: "Detects inbound emails or web requests using common fake-job/recruiter templates (\"send your ID\", \"pay fee\", \"start immediately\") and external recruiter domains; common vector for credential harvest or social engineering."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1598/
+tags:
+  - attack.initial_access
+  - attack.social
+logsource:
+  category: email
+  product: any
+detection:
+  selection_subject:
+    Subject|re:
+      - "(?i).*\\b(job offer|position|interview|opportunity|recruiter|hiring)\\b.*"
+  selection_body:
+    Body|re:
+      - "(?i).*\\b(send your (id|passport|cv|resume)|pay( an)? (fee|deposit)|advance payment|paypal|venmo|wire transfer)\\b.*"
+    Body|re:
+      - "(?i).*\\b(site:.*\\.onion|tor2web|onion\\.to)\\b.*"
+  selection_from_external:
+    From|re:
+      - "(?i).*@(?!.*(trusteddomain\\.com|yourcorp\\.local)).*"
+  condition: selection_subject and selection_body and selection_from_external
+falsepositives:
+  - Legitimate recruitment emails from external recruiters/agencies; correlate with vendor HR vendor allowlist and known partner domains
+level: high
+confidence: medium
+detection_notes: >
+  Enrich with HR vendor allowlist, DKIM/SPF/Dmarc signals, attachment presence, and link reputation. If email includes credential-gathering links, automatically sandbox the link/attachment and flag for SOC/HR review. Consider auto-quarantine for high-confidence matches.
