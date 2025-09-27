@@ -45,7 +45,9 @@ sigma list targets
 ```
 Typical backends: `splunk`, `lucene`, `eql`, `esql`, `elastalert`.
 
-📝 Adding Your Rules
+---
+
+## 📝 Adding Your Rules
 1. Place your Sigma `.yml` rule files in a structured folder:
 ```bash
 rules/
