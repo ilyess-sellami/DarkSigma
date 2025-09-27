@@ -30,7 +30,7 @@ The project’s goal is to provide a structured detection framework that can be 
 ---
 
 ## 📌 Next Steps
-- [ ] Build **+30 DarkSigma detection rules** (IDs: `001_darkweb_onion_access.yml`, `002_tor_gateway_access.yml`, etc.).  
+- [ ] Build **30+ DarkSigma detection rules** (IDs: `001_darkweb_onion_access.yml`, `002_tor_gateway_access.yml`, etc.).  
 - [ ] Translate rules into **Splunk SPL**, **Sigma/ELK**, and **Wazuh** formats.  
 - [ ] Create a **test dataset** (synthetic + real samples) for validation.  
 - [ ] Document rule performance and **false positive handling**.  
