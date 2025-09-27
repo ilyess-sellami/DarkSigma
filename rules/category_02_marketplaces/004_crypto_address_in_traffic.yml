@@ -1,0 +1,24 @@
+title: Cryptocurrency Address Detected in Traffic
+id: 9f8d7c6b-5a4e-4b3c-8d2f-0a1b2c3d4e5f
+status: experimental
+description: Detects Bitcoin, Ethereum, or Monero address patterns in web/email traffic indicative of marketplace payment instructions.
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://attack.mitre.org/techniques/T1486/
+tags:
+  - attack.exfiltration
+  - attack.impact
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection:
+    Body|re:
+      - "[13][a-km-zA-HJ-NP-Z1-9]{25,34}"  # Bitcoin addresses
+      - "0x[a-fA-F0-9]{40}"                 # Ethereum addresses
+      - "4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}" # Monero addresses
+  condition: selection
+falsepositives:
+  - legitimate crypto donations or payments
+level: high

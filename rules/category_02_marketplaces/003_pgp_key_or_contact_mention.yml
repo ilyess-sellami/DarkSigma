@@ -1,0 +1,25 @@
+title: PGP Key or Vendor Contact Mention
+id: c3e5d7a9-4b1f-4d9b-95e3-1a2f3c4b5d6e
+status: experimental
+description: Detects PGP public key blocks, fingerprints, or explicit vendor contact syntaxes often used in dark web marketplaces and forums.
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://attack.mitre.org/techniques/T1583/
+tags:
+  - attack.communication
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection:
+    Body|contains:
+      - "-----BEGIN PGP PUBLIC KEY BLOCK-----"
+      - "pgp:"
+      - "pgp key"
+      - "pgp fingerprint"
+      - "contact:"
+  condition: selection
+falsepositives:
+  - legitimate email/key exchanges
+level: medium

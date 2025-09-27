@@ -1,0 +1,31 @@
+title: Dark Web Marketplace Access Attempt
+id: 1b9f3f34-9d2a-4d3d-8f7b-08a4d7f2c6e1
+status: experimental
+description: Detects access attempts to known or likely dark web marketplace domains and common marketplace keywords in proxy/web logs.
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://attack.mitre.org/techniques/T1583/
+tags:
+  - attack.resource_development
+  - attack.collection
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection:
+    Url|contains:
+      - "market"
+      - "bazaar"
+      - "vendor"
+      - "shop"
+      - "sales"
+      - "listing"
+    Host|contains:
+      - "market"
+      - "bazaar"
+      - "vendor"
+  condition: selection
+falsepositives:
+  - legitimate eCommerce or private marketplaces; require enrichment (host reputation, .onion pattern)
+level: high

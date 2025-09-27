@@ -1,0 +1,29 @@
+title: 005_Dark Web Marketplace File Download Detected
+id: 9a8b7c6d-5e4f-4b3a-9c2d-1f2e3a4b5c6d
+status: experimental
+description: Detects downloads of executable or archive files from dark web marketplaces, vendor pages, or forum attachments (requires both file extension and marketplace indicator).
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://attack.mitre.org/techniques/T1105/
+tags:
+  - attack.resource_development
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection_file:
+    Url|re:
+      - "(?i).*\\.(exe|msi|bin|dll|scr|zip|rar|7z|tar|gz)$"
+  selection_market:
+    Url|re:
+      - "(?i).*\\b(onion|market|bazaar|vendor|forum|listing)\\b.*"
+    Host|re:
+      - "(?i).*\\b(onion|market|bazaar|vendor|forum)\\b.*"
+  condition: selection_file and selection_market
+falsepositives:
+  - legitimate software downloads from vendor portals; require file-hash sandboxing and host allowlist
+level: high
+confidence: high
+detection_notes: >
+  Require file hash submission to sandbox. If file detected is signed, verify signer. If unsigned or packed (high entropy), escalate to IR.

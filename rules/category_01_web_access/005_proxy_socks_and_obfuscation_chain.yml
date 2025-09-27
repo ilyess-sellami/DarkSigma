@@ -1,0 +1,26 @@
+title: Proxy / Chained Anonymizer Usage Detected
+id: 3d2c1b0a-9e8f-4b7a-8c6d-5e4f3a2b1c0d
+status: experimental
+description: Detects unusual proxy chaining, multiple transits through anonymizing services, and use of known anonymizer/UAPI signatures that commonly precede dark web access.
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://attack.mitre.org/techniques/T1090/
+tags:
+  - attack.defense_evasion
+logsource:
+  category: firewall
+  product: any
+detection:
+  selection_chain:
+    DestinationHost|re:
+      - "(?i).*\\b(proxy|anonym|vpn|privoxy|tor|socks)\\b.*"
+    Http_X_Forwarded_For|exists: true
+    MultipleHops|exists: true
+  condition: selection_chain
+falsepositives:
+  - legitimate corporate proxy chains, cloud load balancers — require topology enrichment
+level: high
+confidence: medium
+detection_notes: >
+  Enrich with network path, reverse-proxy logs, and ASN reputation. If chain ends at tor gateway or .onion resolution, escalate immediately.

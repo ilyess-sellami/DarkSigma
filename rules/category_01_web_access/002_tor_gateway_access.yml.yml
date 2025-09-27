@@ -1,0 +1,29 @@
+title: Tor Gateway / Tor2web Access Detected
+id: af9c1d3b-6b2f-4c8a-a8d2-2b3c4d5e6f70
+status: stable
+description: Detects traffic to known clearnet onion gateways (e.g., onion.to, tor2web) and patterns indicating use of tor-over-http bridges.
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://www.torproject.org/
+tags:
+  - attack.command_and_control
+logsource:
+  category: proxy
+  product: any
+detection:
+  selection_gateway:
+    Host|contains:
+      - "onion.to"
+      - "tor2web"
+      - "onion.cab"
+      - "onion.link"
+    Url|re:
+      - "(?i).*onion\\.to/.*"
+  condition: selection_gateway
+falsepositives:
+  - legitimate research tools or integration with .onion preview services
+level: high
+confidence: high
+detection_notes: >
+  Enrich host with passive DNS and threat intel; if host resolves to known tor-gateway IP ranges or appears in intel feeds, escalate. Combine with UA anomalies for higher confidence.

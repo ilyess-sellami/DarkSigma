@@ -1,0 +1,42 @@
+title: Forum Post or Upload Detected
+id: 6a9b2e2d-d3c4-4f6a-9c1e-2f0b3a4c5d6e
+status: experimental
+description: Detects HTTP POST/PUT requests or email traffic indicative of forum posting, leak uploads, or marketplace messages.
+author: Ilyess Sellami
+date: 2025/09/27
+references:
+  - https://attack.mitre.org/techniques/T1590/
+tags:
+  - attack.resource_development
+  - attack.collection
+logsource:
+  category: web
+  product: proxy
+detection:
+  selection_post:
+    Method|contains: "POST"
+    Url|contains:
+      - "forum"
+      - "thread"
+      - "post"
+      - "reply"
+  selection_put:
+    Method|contains: "PUT"
+    Url|contains:
+      - "upload"
+      - "attachments"
+      - "files"
+  selection_email:
+    Subject|contains:
+      - "paste"
+      - "dump"
+      - "leak"
+    Body|contains:
+      - "pastebin"
+      - "paste"
+      - "dump"
+      - "db-dump"
+  condition: selection_post or selection_put or selection_email
+falsepositives:
+  - legitimate forum, CMS, or ticketing system traffic
+level: medium
