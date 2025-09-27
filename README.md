@@ -1,5 +1,7 @@
 # 🕵️ DarkSigma
 
+---
+## 📌 Overview
 **DarkSigma** is a cybersecurity research and detection engineering project focused on monitoring, detecting, and analyzing **Dark Web–related threats**.  
 The project’s goal is to provide a structured detection framework that can be translated into **Splunk**, **ELK/Sigma**, and **Wazuh** rules, and tested against synthetic and real-world logs.  
 
