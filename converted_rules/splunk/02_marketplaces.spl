@@ -1,0 +1,19 @@
+Url IN ("*market*", "*bazaar*", "*vendor*", "*shop*", "*sales*", "*listing*") Host IN ("*market*", "*bazaar*", "*vendor*")
+
+
+| regex Url="(?i).*\\.(exe|msi|bin|dll|scr|zip|rar|7z|tar|gz)$"
+| regex Url="(?i).*\\b(onion|market|bazaar|vendor|forum|listing)\\b.*"
+| regex Host="(?i).*\\b(onion|market|bazaar|vendor|forum)\\b.*"
+
+
+| rex field=Body "(?<BodyMatch>[13][a-km-zA-HJ-NP-Z1-9]{25,34})"
+| eval BodyCondition=if(isnotnull(BodyMatch), "true", "false")
+| rex field=Body "(?<BodyMatch2>0x[a-fA-F0-9]{40})"
+| eval BodyCondition2=if(isnotnull(BodyMatch2), "true", "false")
+| rex field=Body "(?<BodyMatch3>4[0-9AB][1-9A-HJ-NP-Za-km-z]{93})"
+| eval BodyCondition3=if(isnotnull(BodyMatch3), "true", "false")
+| search BodyCondition="true" OR BodyCondition2="true" OR BodyCondition3="true"
+
+(Method="*POST*" Url IN ("*forum*", "*thread*", "*post*", "*reply*")) OR (Method="*PUT*" Url IN ("*upload*", "*attachments*", "*files*")) OR (Subject IN ("*paste*", "*dump*", "*leak*") Body IN ("*pastebin*", "*paste*", "*dump*", "*db-dump*"))
+
+Body IN ("*-----BEGIN PGP PUBLIC KEY BLOCK-----*", "*pgp:*", "*pgp key*", "*pgp fingerprint*", "*contact:*")

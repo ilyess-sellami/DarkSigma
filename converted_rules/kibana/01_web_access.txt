@@ -1,0 +1,9 @@
+Image:(*tor.exe OR *torbrowser.exe)
+
+Url:/(?i).*\.onion(?:\/.*)?$/ AND Host:/(?i).*\.onion$/ AND QueryName:/(?i).*\.onion$/
+
+url:(*silkroad* OR *hydra* OR *alphabay* OR *dreammarket* OR *darkmarket* OR *wallstreet* OR *whitehouse* OR *valhalla* OR *pandora* OR *agora* OR *hansa* OR *versus* OR *cartel* OR *dark0de* OR *weedo* OR *cannazon* OR *evolution* OR *outlaw* OR *berlusconi* OR *cgmc* OR *blackbank* OR *darkfox* OR *torrez* OR *asapmarket* OR *kingdom* OR *connect* OR *blackhand* OR *cryptonia* OR *nemesis* OR *bohemia*)
+
+(Host:(*onion.to* OR *tor2web* OR *onion.cab* OR *onion.link*)) AND Url:/(?i).*onion\.to\/.*/
+
+DestinationHost:/(?i).*\b(proxy|anonym|vpn|privoxy|tor|socks)\b.*/ AND _exists_:Http_X_Forwarded_For AND _exists_:MultipleHops

@@ -1,0 +1,9 @@
+url:/(^|\/|\?)((tornado\.cash|chipmixer|mixingservice|blender\.io)([:\/]|$))/ AND http.request.uri:/(^|\/|\?)((tornado\.cash|chipmixer|mixingservice|blender\.io)([:\/]|$))/
+
+filename:/.*(wallet|accounts|transactions|key|seed).*/ AND (fileaction:(*copy* OR *compress* OR *encrypt*))
+
+eventtype:transaction AND amount:>=10000 AND destinationcountry:/(offshore|highrisk)/
+
+url:/(^|\/|\?)((cardingforum|cvvshop|creditcardmarket|ccstore)([:\/]|$))/ AND http.request.uri:/(^|\/|\?)((cardingforum|cvvshop|creditcardmarket|ccstore)([:\/]|$))/
+
+filename:/.*(wallet|key|mnemonic|seed).*/ AND url:/(^|\/|\?)((dropbox|drive|mega|torrent|onion)([:\/]|$))/

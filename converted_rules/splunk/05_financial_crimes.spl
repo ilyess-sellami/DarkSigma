@@ -1,0 +1,17 @@
+
+| regex url="(^|/|\\?)((tornado\\.cash|chipmixer|mixingservice|blender\\.io)([:/]|$))"
+| regex http.request.uri="(^|/|\\?)((tornado\\.cash|chipmixer|mixingservice|blender\\.io)([:/]|$))"
+
+fileaction IN ("*copy*", "*compress*", "*encrypt*")
+| regex filename=".*(wallet|accounts|transactions|key|seed).*"
+
+eventtype="transaction" amount>=10000
+| regex destinationcountry="(offshore|highrisk)"
+
+
+| regex url="(^|/|\\?)((cardingforum|cvvshop|creditcardmarket|ccstore)([:/]|$))"
+| regex http.request.uri="(^|/|\\?)((cardingforum|cvvshop|creditcardmarket|ccstore)([:/]|$))"
+
+
+| regex filename=".*(wallet|key|mnemonic|seed).*"
+| regex url="(^|/|\\?)((dropbox|drive|mega|torrent|onion)([:/]|$))"

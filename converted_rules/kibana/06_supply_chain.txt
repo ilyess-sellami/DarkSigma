@@ -1,0 +1,9 @@
+ParentProcessName:/(?i)msiexec|powershell|wscript|cscript|installer|setup/ AND ProcessName:*.exe AND Signature:*ValidSignature*
+
+(CommandLine:/(?i).*curl.*(artifacts|jenkins|build|pipeline).*/ OR CommandLine:/(?i).*wget.*(artifacts|jenkins|build|pipeline).*/) OR (ProcessName:/(?i)gradlew|mvn|npm|yarn|pip/ AND CommandLine:/(?i).*\.sh|\.bat|\.ps1/)
+
+User:/(?i).*svc_.*|service_.*|ci_cd_.*/ AND (ProcessName:(*.exe OR *.bat OR *.ps1))
+
+(Url:/(?i).*registry\.npmjs\.org.*/ OR Url:/(?i).*pypi\.org.*/ OR Url:/(?i).*nuget\.org.*/ OR Url:/(?i).*maven\.apache\.org.*/) AND Method:*PUT*
+
+Signature:*NotSigned* AND (ProcessName:(*.exe OR *.dll OR *.ps1))

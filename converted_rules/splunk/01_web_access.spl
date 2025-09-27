@@ -1,0 +1,14 @@
+Image IN ("*tor.exe", "*torbrowser.exe")
+
+
+| regex Url="(?i).*\\.onion(?:/.*)?$"
+| regex Host="(?i).*\\.onion$"
+| regex QueryName="(?i).*\\.onion$"
+
+url IN ("*silkroad*", "*hydra*", "*alphabay*", "*dreammarket*", "*darkmarket*", "*wallstreet*", "*whitehouse*", "*valhalla*", "*pandora*", "*agora*", "*hansa*", "*versus*", "*cartel*", "*dark0de*", "*weedo*", "*cannazon*", "*evolution*", "*outlaw*", "*berlusconi*", "*cgmc*", "*blackbank*", "*darkfox*", "*torrez*", "*asapmarket*", "*kingdom*", "*connect*", "*blackhand*", "*cryptonia*", "*nemesis*", "*bohemia*")
+
+Host IN ("*onion.to*", "*tor2web*", "*onion.cab*", "*onion.link*")
+| regex Url="(?i).*onion\\.to/.*"
+
+Http_X_Forwarded_For=* MultipleHops=*
+| regex DestinationHost="(?i).*\\b(proxy|anonym|vpn|privoxy|tor|socks)\\b.*"

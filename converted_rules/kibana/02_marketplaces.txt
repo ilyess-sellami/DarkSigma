@@ -1,0 +1,9 @@
+(Url:(*market* OR *bazaar* OR *vendor* OR *shop* OR *sales* OR *listing*)) AND (Host:(*market* OR *bazaar* OR *vendor*))
+
+Url:/(?i).*\.(exe|msi|bin|dll|scr|zip|rar|7z|tar|gz)$/ AND (Url:/(?i).*\b(onion|market|bazaar|vendor|forum|listing)\b.*/ AND Host:/(?i).*\b(onion|market|bazaar|vendor|forum)\b.*/)
+
+Body:/[13][a-km-zA-HJ-NP-Z1-9]{25,34}/ OR Body:/0x[a-fA-F0-9]{40}/ OR Body:/4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}/
+
+(Method:*POST* AND (Url:(*forum* OR *thread* OR *post* OR *reply*))) OR (Method:*PUT* AND (Url:(*upload* OR *attachments* OR *files*))) OR ((Subject:(*paste* OR *dump* OR *leak*)) AND (Body:(*pastebin* OR *paste* OR *dump* OR *db\-dump*)))
+
+Body:(*\-\-\-\-\-BEGIN\ PGP\ PUBLIC\ KEY\ BLOCK\-\-\-\-\-* OR *pgp\:* OR *pgp\ key* OR *pgp\ fingerprint* OR *contact\:*)

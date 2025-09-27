@@ -1,0 +1,29 @@
+ProcessName="*.exe" Signature="*ValidSignature*"
+| regex ParentProcessName="(?i)msiexec|powershell|wscript|cscript|installer|setup"
+
+
+| rex field=CommandLine "(?<CommandLineMatch>(?i).*curl.*(artifacts|jenkins|build|pipeline).*)"
+| eval CommandLineCondition=if(isnotnull(CommandLineMatch), "true", "false")
+| rex field=CommandLine "(?<CommandLineMatch2>(?i).*wget.*(artifacts|jenkins|build|pipeline).*)"
+| eval CommandLineCondition2=if(isnotnull(CommandLineMatch2), "true", "false")
+| rex field=ProcessName "(?<ProcessNameMatch>(?i)gradlew|mvn|npm|yarn|pip)"
+| eval ProcessNameCondition=if(isnotnull(ProcessNameMatch), "true", "false")
+| rex field=CommandLine "(?<CommandLineMatch3>(?i).*\\.sh|\\.bat|\\.ps1)"
+| eval CommandLineCondition3=if(isnotnull(CommandLineMatch3), "true", "false")
+| search CommandLineCondition="true" OR CommandLineCondition2="true" OR (ProcessNameCondition="true" CommandLineCondition3="true")
+
+ProcessName IN ("*.exe", "*.bat", "*.ps1")
+| regex User="(?i).*svc_.*|service_.*|ci_cd_.*"
+
+
+| rex field=Url "(?<UrlMatch>(?i).*registry\\.npmjs\\.org.*)"
+| eval UrlCondition=if(isnotnull(UrlMatch), "true", "false")
+| rex field=Url "(?<UrlMatch2>(?i).*pypi\\.org.*)"
+| eval UrlCondition2=if(isnotnull(UrlMatch2), "true", "false")
+| rex field=Url "(?<UrlMatch3>(?i).*nuget\\.org.*)"
+| eval UrlCondition3=if(isnotnull(UrlMatch3), "true", "false")
+| rex field=Url "(?<UrlMatch4>(?i).*maven\\.apache\\.org.*)"
+| eval UrlCondition4=if(isnotnull(UrlMatch4), "true", "false")
+| search UrlCondition="true" OR UrlCondition2="true" OR UrlCondition3="true" OR UrlCondition4="true" Method="*PUT*"
+
+Signature="*NotSigned*" ProcessName IN ("*.exe", "*.dll", "*.ps1")
