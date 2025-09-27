@@ -1,0 +1,27 @@
+title: 002_Suspicious Carding Site Access
+id: a12b34c5-6d7e-8901-2a3b-4c5d6e7f8a9b
+status: experimental
+description: Detects access attempts to known or suspected carding marketplaces, forums, or shops trading stolen payment data.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1074/
+tags:
+  - attack.exfiltration
+  - attack.impact
+logsource:
+  product: any
+  service: proxy
+  category: proxy
+detection:
+  selection_carding:
+    url|re: '(^|/|\?)((cardingforum|cvvshop|creditcardmarket|ccstore)([:/]|$))'
+    http.request.uri|re: '(^|/|\?)((cardingforum|cvvshop|creditcardmarket|ccstore)([:/]|$))'
+  condition: selection_carding
+falsepositives:
+  - legitimate pentesting, research, or internal security labs
+level: high
+confidence: high
+detection_notes: >
+  Correlate with login events, payment API usage, and outbound data transfers.
+  High-value corporate traffic to these domains should trigger an immediate alert.

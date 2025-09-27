@@ -1,0 +1,32 @@
+title: Suspicious CI/CD Pipeline Artifact Download or Execution
+id: 1f2e3d4c-5b6a-7d8e-9f0a-1b2c3d4e5f6a
+status: experimental
+description: "Detects unusual downloads or execution of artifacts in CI/CD pipelines that could indicate a supply chain compromise or malicious build injection."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1195/
+tags:
+  - attack.initial_access
+  - attack.persistence
+  - attack.defense_evasion
+logsource:
+  category: process
+  product: any
+detection:
+  selection_pipeline_download:
+    CommandLine|re:
+      - "(?i).*curl.*(artifacts|jenkins|build|pipeline).*"
+      - "(?i).*wget.*(artifacts|jenkins|build|pipeline).*"
+  selection_pipeline_exec:
+    ProcessName|re:
+      - "(?i)gradlew|mvn|npm|yarn|pip"
+    CommandLine|re:
+      - "(?i).*\\.sh|\\.bat|\\.ps1"
+  condition: selection_pipeline_download or selection_pipeline_exec
+falsepositives:
+  - Regular CI/CD build operations; correlate with pipeline jobs, schedules, and approved artifacts
+level: critical
+confidence: medium
+detection_notes: >
+  Combine with artifact hash verification (signed vs unsigned) and CI/CD pipeline logs. Alert if unsigned binaries are executed or modified outside trusted build jobs.

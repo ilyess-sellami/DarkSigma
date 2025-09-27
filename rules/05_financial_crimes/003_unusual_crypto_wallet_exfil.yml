@@ -1,0 +1,27 @@
+title: 003_Unusual Cryptocurrency Wallet Data Exfiltration
+id: b23c45d6-7e8f-9012-3a4b-5c6d7e8f9a0b
+status: stable
+description: Detects exfiltration of cryptocurrency wallet files, keys, or mnemonic phrases over web or cloud storage.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1041/
+tags:
+  - attack.exfiltration
+  - attack.impact
+logsource:
+  product: any
+  service: proxy
+  category: file
+detection:
+  selection_wallet_exfil:
+    filename|re: '.*(wallet|key|mnemonic|seed).*'
+    url|re: '(^|/|\?)((dropbox|drive|mega|torrent|onion)([:/]|$))'
+  condition: selection_wallet_exfil
+falsepositives:
+  - legitimate cloud backups or testing; verify user and device
+level: high
+confidence: medium
+detection_notes: >
+  Enrich with crypto wallet hash reputation.
+  Immediate investigation if sensitive wallet files are uploaded to unknown external endpoints.

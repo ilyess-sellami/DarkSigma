@@ -1,0 +1,28 @@
+title: Unsigned Binary Execution Detected
+id: 2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d
+status: stable
+description: "Detects execution of binaries or scripts without a trusted digital signature, potentially indicating a compromised signed binary or proxy execution attack."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1195/
+tags:
+  - attack.persistence
+  - attack.defense_evasion
+logsource:
+  category: process
+  product: windows
+detection:
+  selection_unsigned:
+    Signature|contains: "NotSigned"
+    ProcessName|endswith:
+      - ".exe"
+      - ".dll"
+      - ".ps1"
+  condition: selection_unsigned
+falsepositives:
+  - Internal test binaries or development builds; verify with software inventory
+level: critical
+confidence: high
+detection_notes: >
+  Correlate with file hash allowlists and signed binaries inventory. Escalate immediately if unsigned binary is executed by a service account or in production.

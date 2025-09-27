@@ -1,0 +1,29 @@
+title: Abuse of Package Registry or Repository
+id: 3b4c5d6e-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+status: experimental
+description: "Detects suspicious access or modification of public or private package registries (npm, PyPI, Maven, NuGet) that could indicate supply chain compromise or malicious package injection."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1195/
+tags:
+  - attack.initial_access
+  - attack.persistence
+logsource:
+  category: network
+  product: any
+detection:
+  selection_registry_access:
+    Url|re:
+      - "(?i).*registry\\.npmjs\\.org.*"
+      - "(?i).*pypi\\.org.*"
+      - "(?i).*nuget\\.org.*"
+      - "(?i).*maven\\.apache\\.org.*"
+    Method|contains: "PUT"
+  condition: selection_registry_access
+falsepositives:
+  - Legitimate package publishing; validate user, IP, and dev authorization
+level: critical
+confidence: medium
+detection_notes: >
+  Combine with developer identity, API key usage, and unusual commit patterns. Alert if unexpected account publishes a high-impact package or modifies a trusted library.

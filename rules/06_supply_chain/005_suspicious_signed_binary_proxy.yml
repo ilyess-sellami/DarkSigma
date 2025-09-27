@@ -1,0 +1,28 @@
+title: 005_Suspicious Signed Binary Proxy Execution
+id: 5d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f01
+status: experimental
+description: "Detects signed binaries executing other binaries (proxy execution) or unusual parent-child relationships not typical for trusted processes, indicative of supply chain abuse."
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1195/
+tags:
+  - attack.persistence
+  - attack.defense_evasion
+logsource:
+  category: process
+  product: windows
+detection:
+  selection_proxy_exec:
+    ParentProcessName|re:
+      - "(?i)msiexec|powershell|wscript|cscript|installer|setup"
+    ProcessName|endswith:
+      - ".exe"
+    Signature|contains: "ValidSignature"
+  condition: selection_proxy_exec
+falsepositives:
+  - Legitimate installer execution; correlate with MSI/MSP package logs and known deploy scripts
+level: critical
+confidence: medium
+detection_notes: >
+  Correlate with source of installer package, timestamp, and signed hash verification. Alert if executed outside known deployment channels or by unauthorized user/service account.

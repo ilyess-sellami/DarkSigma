@@ -24,11 +24,8 @@ The project’s goal is to provide a structured detection framework that can be 
 | 3 | **Credentials & Data Exposure** | Credential Access, Collection, Impact | Credential Dumping (T1003), Valid Accounts (T1078) | **Critical** |
 | 4 | **Malware & Exploit Distribution** | Initial Access, Execution, C2, Defense Evasion | Drive-by Compromise (T1189), Exploit Public-Facing App (T1190) | **Critical** |
 | 5 | **Financial Crimes** (crypto mixers, carding, cashout) | Exfiltration, Impact, Command & Control | Exfiltration Over Web (T1041), Data Staged (T1074) | **High** |
-| 6 | **Communication & Coordination** (chats, booters, recruitment) | C2, Resource Development, Initial Access | Application Layer Protocol (T1071), Third-party Software (T1072) | **Medium–High** |
-| 7 | **OpSec Evasion** (proxy chains, tor-over-https, stego) | Defense Evasion, C2, Obfuscation | Obfuscated Files (T1027), Proxy (T1090), Protocol Tunneling (T1572) | **High** |
-| 8 | **Supply-chain / Service Abuse** | Supply Chain Compromise, Persistence, Defense Evasion | Compromise Software Supply Chain (T1195), Signed Binary Proxy Execution | **Critical** |
-| 9 | **Insider / Recruitment Scams** | Initial Access, Impact, Collection | Valid Accounts (T1078), Spearphishing Attachment (T1193) | **High** |
-| 10 | **Leak Announcements & Monitoring** | Collection, Exfiltration, Impact | Exfiltration to Web (T1041), Data from Local System (T1005) | **Medium–High** |
+| 6 | **Supply-chain / Service Abuse** | Supply Chain Compromise, Persistence, Defense Evasion | Compromise Software Supply Chain (T1195), Signed Binary Proxy Execution | **Critical** |
+| 7 | **Insider / Recruitment Scams** | Initial Access, Impact, Collection | Valid Accounts (T1078), Spearphishing Attachment (T1193) | **High** |
 
 ---
 

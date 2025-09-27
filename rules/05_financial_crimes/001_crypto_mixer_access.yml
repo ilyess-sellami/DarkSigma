@@ -1,0 +1,27 @@
+title: 001_Crypto Mixer Access Detected
+id: f01a2b3c-4d5e-6789-0a1b-2c3d4e5f6a7b
+status: experimental
+description: Detects access attempts to known cryptocurrency mixing or tumbling services, including Tor-based or web gateways.
+author: Ilyess Sellami
+date: 2025-09-27
+references:
+  - https://attack.mitre.org/techniques/T1041/
+tags:
+  - attack.exfiltration
+  - attack.command_and_control
+logsource:
+  product: any
+  service: proxy
+  category: proxy
+detection:
+  selection_mixer:
+    url|re: '(^|/|\?)((tornado\.cash|chipmixer|mixingservice|blender\.io)([:/]|$))'
+    http.request.uri|re: '(^|/|\?)((tornado\.cash|chipmixer|mixingservice|blender\.io)([:/]|$))'
+  condition: selection_mixer
+falsepositives:
+  - legitimate blockchain research; consider allowlisting research IPs, internal analysts, scanners
+level: high
+confidence: high
+detection_notes: >
+  Combine with wallet-address patterns, unusual outbound transfers, or data-exfiltration activity.
+  Consider enrichment (DNS, TLS SNI, WHOIS, Tor exit IP lists) and an allowlist for known research hosts.
