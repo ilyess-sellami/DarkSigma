@@ -1,5 +1,7 @@
 # 🕵️ DarkSigma – Sigma Dark Web Rules
 
+---
+
 ![DarkSigma – Sigma Dark Web Rules](banner-image.png)
 
 ---
