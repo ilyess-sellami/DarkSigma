@@ -1,5 +1,5 @@
-# 🕵️ DarkSigma
-**Sigma Dark Web Threat Detection Rules**
+# DarkSigma
+**🕵️ Sigma Dark Web Threat Detection Rules**
 
 ![DarkSigma](DarkSigma.png)
 
