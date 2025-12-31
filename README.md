@@ -1,8 +1,7 @@
-# 🕵️ DarkSigma – Sigma Dark Web Rules
+# 🕵️ DarkSigma
+**Sigma Dark Web Threat Detection Rules**
 
----
-
-![DarkSigma – Sigma Dark Web Rules](banner-image.png)
+![DarkSigma](DarkSigma.png)
 
 ---
 ## 📌 Overview
